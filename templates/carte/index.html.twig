@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerie{% endblock %}
+
+{% block body %}
+<header class="position-relative">
+    <img src="/img/vue-dessus-du-panier-plein-pains-comme-baguette-bagel-seigle-graines-tournesol-surface-noire.jpg" width="500" height="300" class="d-block w-100 object-fit-cover " alt="Image 1"/>
+    <div class="p-5 text-center text-white position-absolute top-50 start-50 translate-middle bg-white rounded bg-opacity-75">
+        <div class="container py-3">
+            <h1 class="text-body-emphasis">Gallery</h1>
+        </div>
+    </div>
+</header>
+
+{% if app.user %}
+    <div class="container p-3 mt-3 d-flex align-content-center justify-content-center  bg-body-tertiary rounded shadow">
+        {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+            <div class="col-md-6">
+                {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.price, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-12">
+                {{ form_row(form.Description, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-12">
+                {{ form_row(form.image, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endif %}
+
+<div class="container p-5">
+    <div class="d-flex flex-wrap gap-5 justify-content-center">
+        {% for article in articles %}
+            <div class="position-relative shadow">
+                <img src="/img/{{ article.image }}" class="rounded object-fit-cover" alt="{{ article.name }}" width="300" height="300" data-article-name="{{ article.name }}" data-article-description="{{ article.description }}" data-bs-toggle="modal" data-bs-target="#articleModal">
+                <div class="overlay position-absolute top-0 start-0 bg-dark text-white p-3 opacity-0 transition">
+                    <h5 class="fw-bold mb-1">{{ article.name }}</h5>
+                    <p class="m-0">{{ article.description }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% include "/carte/modalShow.html.twig" %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('[data-bs-toggle="modal"]').click(function() {
+                var articleName = $(this).data('article-name');
+                var articleDescription = $(this).data('article-description');
+                $('#articleModalLabel').text(articleName);
+                $('#articleDescription').text(articleDescription);
+            });
+        });
+    </script>
+{% endblock %}

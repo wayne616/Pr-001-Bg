@@ -1,3 +1,77 @@
-body {
-    background-color: skyblue;
+/* Palette traditionnelle */
+:root {
+    --couleur-principale: #F9D6C1;
+    --couleur-accent: #AB6330;
+    --couleur-mise-en-evidence: #F2E3D7;
+    --couleur-fond: #E8DCCF;
+  }
+  
+  /* Police classique */
+  body {
+    font-family: 'Lato', sans-serif !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif !important;
+  }
+  
+  /* Styles spécifiques à Bootstrap 5 */
+  .bg-body-tertiary {
+    background-color: var(--couleur-fond) !important;
+  }
+  
+  .text-body-emphasis {
+    color: var(--couleur-accent) !important;
+  }
+  
+  /* Utilisation des couleurs de la palette */
+  .text-primary {
+    color: var(--couleur-principale) !important;
+  }
+  
+  .text-accent {
+    color: var(--couleur-accent) !important;
+  }
+  
+  .bg-primary {
+    background-color: var(--couleur-principale) !important;
+  }
+  
+  /* Autres classes de couleurs Bootstrap 5 */
+  /* Utilisez-les selon vos besoins */
+  
+  /* Pour les liens */
+  a {
+    color: var(--couleur-accent) !important;
+  }
+  a:hover {
+    color: var(--couleur-mise-en-evidence) !important;
+  }
+  .btn-hover:hover{
+    background-color: var(--couleur-accent);
+}
+
+/* Animation galerie hover */
+
+/* Style de la superposition */
+.overlay {
+  opacity: 0; /* Par défaut, la superposition est transparente */
+  transition: opacity 0.3s ease-in-out; /* Transition fluide pour l'opacité */
+}
+
+/* Style pour afficher la superposition lors du survol */
+.position-relative:hover .overlay {
+  opacity: 0.9; /* Opacité maximale lors du survol */
+}
+
+/* Style pour le nom de l'article */
+.overlay h5 {
+  font-size: 1.2rem; /* Taille de police du nom de l'article */
+  margin-bottom: 5px; /* Marge inférieure */
+}
+
+/* Style pour la description de l'article */
+.overlay p {
+  font-size: 1rem; /* Taille de police de la description de l'article */
+  margin: 0; /* Supprimer les marges */
 }

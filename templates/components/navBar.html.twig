@@ -1,0 +1,22 @@
+<div class="">
+    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom mx-3">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+            {# <img src="/img/kebaili.svg" class="me-2" alt="Logo Kebaili Boulangerie Pâtisserie"> #}
+            <span class="fs-4 fw-bold">Kebaili Boulangerie Pâtisserie</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item btn-nav"><a href="/" class="nav-link fw-bold" aria-current="page">Home</a></li>
+            <li class="nav-item btn-nav"><a href="/about" class="nav-link fw-bold">About</a></li>
+            <li class="nav-item btn-nav"><a href="/service" class="nav-link fw-bold">Service</a></li>
+            <li class="nav-item btn-nav"><a href="/carte" class="nav-link fw-bold">Galerie</a></li>
+
+            {% if app.user %}
+              <li class="nav-item btn-nav"><a href="{{ path('app_logout') }}" class="nav-link fw-bold"> {{ app.user.userIdentifier }}</a></li>
+            {% else %}
+              <li class="nav-item btn-nav"><a href="/login" class="nav-link fw-bold">Login</a></li>
+              <li class="nav-item btn-nav"><a href="/register" class="nav-link fw-bold">Register</a></li>
+            {% endif %}
+        </ul>
+    </header>
+</div>

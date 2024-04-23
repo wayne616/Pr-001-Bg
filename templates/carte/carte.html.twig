@@ -1,0 +1,29 @@
+<div class="pb-5">
+    {# ----------- #}
+    <div class="d-flex align-items-center flex-column justify-content-center">
+        <div class="w-50 text-center shadow rounded bg-body-tertiary">
+            <h2 class="fw-semibold text-body-emphasis">Notre carte</h2>
+            <h5 class="text-uppercase fw-medium">PLATS CRÉMEUX</h5>
+            <p class="p-3">La journée pour une visite de trois heures, une visite de trois heures puis un jour, il tirait sur de la nourriture et à travers le sol est venue une huile qui est une belle journée.</p>
+        </div> 
+    </div> 
+    {# ----------- #}
+    <div class=" pt-5">
+        <div class="row justify-content-center gap-4">
+            {% for article in articles %}
+                <div class="col-5 bg-body-tertiary d-flex rounded p-0">
+                    <img src="/img/images.jpg" alt="menu" class="img-fluid rounded"  width="200" height="200">
+                    <div class="w-100 p-3">
+                        <h3 class="mt-4 d-flex justify-content-between">{{article.name}} <span class="text-accent bg-light rounded p-2">{{article.price}}&nbsp;€</span></h3>
+                        <div class="d-flex flex-column pt-4">
+                            <p>{{article.description}}</p>
+                            <div>
+                                <button type="btn" class="btn btn-light px-4 me-md-2 text-uppercase btn-hover" id="articles{{article.id}}" title="btn Commandez maintenant">Commandez maintenant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div> 
+    </div> 
+</div>  
