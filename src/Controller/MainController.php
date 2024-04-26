@@ -15,10 +15,23 @@ class MainController extends AbstractController
     {
         $articles = $entityManager->getRepository(Articles::class)->findBy([], ['created_at' => 'DESC'], 6);
 
+        $horaires = [
+            ['date' => 'lundi', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'mardi', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'mercredi', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'jeudi', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'vendredi', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'samedi', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'dimanche', 'horaire' => '06:30 - 20:00'],
+        ];
+
+
         return $this->render('main/index.html.twig', [
-            'articles' => $articles
+            'articles' => $articles,
+            'horaires' =>$horaires,
         ]);
     }
+
     #[Route('/about', name: 'app_main_about')]
     public function about(EntityManagerInterface $entityManager): Response
     {
@@ -28,7 +41,8 @@ class MainController extends AbstractController
             // 'articles' => $articles
         ]);
     }
-    #[Route('/service', name: 'app_main_about')]
+
+    #[Route('/service', name: 'app_main_service')]
     public function service(EntityManagerInterface $entityManager): Response
     {
         // $articles = $entityManager->getRepository(Articles::class)->findBy([], ['created_at' => 'DESC'], 6);

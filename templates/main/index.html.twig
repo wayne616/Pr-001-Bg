@@ -25,7 +25,47 @@
     </div>
 </div>
 {# -------------------- #}
+<div class=" p-3 mx-3 mb-5 bg-body-tertiary text-white rounded bg-opacity-50 d-flex gap-1">
+
+    <div class="container p-3 mb-2 bg-white text-black rounded text-center w-25 shadow">
+        <h2 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Nos</h2>
+        <h3 class="">Horaires d'ouverture</h3>
+
+        {% for i in horaires %}
+            <div class=" d-flex justify-content-between"> 
+                <p class="text-uppercase fw-bold">{{i.date}}</p>
+                <p class="fw-bold text-body-emphasis">{{i.horaire}}</p>
+            </div>
+        {% endfor %}
+        
+    </div>
+
+    <div class="container p-3 mb-2 bg-white text-black rounded text-center w-50 shadow">
+        <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Carte</h3>
+        <iframe class="rounded " src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10111.336200396496!2d3.1871036!3d50.6859053!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3288fb222b62b%3A0x2661c82cbe3fca77!2sBoulangerie%20Patisserie%20Kebaili!5e0!3m2!1sfr!2sfr!4v1714124816265!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</div>
 {% include "/carte/carte.html.twig" %}
 
 
+{% endblock %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            $('[data-bs-target="#exampleModal"]').click(function() {
+                var articleName = $(this).data('article-name');
+                var articleDescription = $(this).data('article-description');
+                $('#articleModalLabel').text(articleName);
+                $('#articleDescription').text(articleDescription);
+
+            });
+
+            const log = document.querySelectorAll("#articles");
+            console.log(log);
+        });
+    </script>
 {% endblock %}

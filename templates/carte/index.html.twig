@@ -44,6 +44,14 @@
                     <p class="m-0">{{ article.description }}</p>
                 </div>
             </div>
+            {% else %}
+            <div class="position-relative shadow">
+                <img src="/img/kebaili.jpg" class="rounded object-fit-cover" alt="pas de données" width="300" height="300" >
+                <div class="overlay position-absolute top-0 start-0 bg-dark text-white p-3 opacity-0 transition">
+                    <h5 class="fw-bold mb-1">pas de données</h5>
+                    <p class="m-0">pas de données</p>
+                </div>
+            </div>
         {% endfor %}
     </div>
 </div>

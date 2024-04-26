@@ -19,10 +19,10 @@
                         {{ form_label(registrationForm.plainPassword, 'Password') }}
                         {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
                     </div>
-                    <div class="form-check mb-3">
+                    {# <div class="form-check mb-3">
                         {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
                         {{ form_label(registrationForm.agreeTerms, 'I agree to the terms') }}
-                    </div>
+                    </div> #}
                     <button type="submit" class="btn btn-primary">Register</button>
                 {{ form_end(registrationForm) }}
             </div>

@@ -14,11 +14,24 @@
                 <div class="col-5 bg-body-tertiary d-flex rounded p-0">
                     <img src="/img/images.jpg" alt="menu" class="img-fluid rounded"  width="200" height="200">
                     <div class="w-100 p-3">
-                        <h3 class="mt-4 d-flex justify-content-between">{{article.name}} <span class="text-accent bg-light rounded p-2">{{article.price}}&nbsp;€</span></h3>
+                        <h3 class="mt-4 d-flex justify-content-between" data-article-name="{{ article.name }}">{{article.name}} <span class="text-accent bg-light rounded p-2">{{article.price}}&nbsp;€</span></h3>
                         <div class="d-flex flex-column pt-4">
-                            <p>{{article.description}}</p>
+                            <p data-article-description="{{ article.description }}">{{article.description}}</p>
                             <div>
-                                <button type="btn" class="btn btn-light px-4 me-md-2 text-uppercase btn-hover" id="articles{{article.id}}" title="btn Commandez maintenant">Commandez maintenant</button>
+                                <button type="btn" class="btn btn-modal btn-light px-4 me-md-2 text-uppercase btn-hover" id="articles.{{article.id}}" title="btn Commandez maintenant" data-bs-toggle="modal" data-bs-target="#exampleModal">Commandez maintenant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-5 bg-body-tertiary d-flex rounded p-0">
+                    <img src="/img/kebaili.jpg" alt="menu" class="img-fluid rounded"  width="200" height="200">
+                    <div class="w-100 p-3">
+                        <h3 class="mt-4 d-flex justify-content-between">pas de données<span class="text-accent bg-light rounded p-2">0&nbsp;€</span></h3>
+                        <div class="d-flex flex-column pt-4">
+                            <p>pas de données</p>
+                            <div>
+                                <button type="btn" class="btn btn-light px-4 me-md-2 text-uppercase btn-hover display-1" title="btn Commandez maintenant">Commandez maintenant</button>
                             </div>
                         </div>
                     </div>
@@ -27,3 +40,5 @@
         </div> 
     </div> 
 </div>  
+
+{% include "/carte/modalShow.html.twig" %}
