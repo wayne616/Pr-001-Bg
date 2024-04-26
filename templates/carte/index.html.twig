@@ -38,7 +38,7 @@
     <div class="d-flex flex-wrap gap-5 justify-content-center">
         {% for article in articles %}
             <div class="position-relative shadow">
-                <img src="/img/{{ article.image }}" class="rounded object-fit-cover" alt="{{ article.name }}" width="300" height="300" data-article-name="{{ article.name }}" data-article-description="{{ article.description }}" data-bs-toggle="modal" data-bs-target="#articleModal">
+                <img src="/img/{{ article.image }}" class="rounded object-fit-cover" alt="{{ article.name }}" width="300" height="300" data-article-name="{{ article.name }}" data-article-description="{{ article.description }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <div class="overlay position-absolute top-0 start-0 bg-dark text-white p-3 opacity-0 transition">
                     <h5 class="fw-bold mb-1">{{ article.name }}</h5>
                     <p class="m-0">{{ article.description }}</p>

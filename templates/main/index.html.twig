@@ -56,16 +56,13 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
-            $('[data-bs-target="#exampleModal"]').click(function() {
+            $('[data-bs-toggle="modal"]').click(function() {
                 var articleName = $(this).data('article-name');
                 var articleDescription = $(this).data('article-description');
                 $('#articleModalLabel').text(articleName);
                 $('#articleDescription').text(articleDescription);
 
             });
-
-            const log = document.querySelectorAll("#articles");
-            console.log(log);
         });
     </script>
 {% endblock %}
