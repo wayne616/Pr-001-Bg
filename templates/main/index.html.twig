@@ -14,7 +14,7 @@
         </div>
         <div class="col-lg-6 bg-body-tertiary p-4 rounded d-flex align-items-center flex-column shadow ">
             <div class="d-flex gap-1 align-items-center">
-                <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">30</h1>
+                <h1 class="display-5 fw-bold text-body-primary lh-1 mb-3">30</h1>
                 <h1>ANNÉES D'EXCELLENCE</h1>
             </div>
             <p class="lead">Quickly design and customize responsive mobile-first sites with Bootstrap, the world’s most popular front-end open source toolkit, featuring Sass variables and mixins, responsive grid system, extensive prebuilt components, and powerful JavaScript plugins.</p>
@@ -28,20 +28,20 @@
 <div class=" p-3 mx-3 mb-5 bg-body-tertiary text-white rounded bg-opacity-50 d-flex gap-1">
 
     <div class="container p-3 mb-2 bg-white text-black rounded text-center w-25 shadow">
-        <h2 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Nos</h2>
+        <h2 class="display-5 fw-bold text-body-primary lh-1 mb-3">Nos</h2>
         <h3 class="">Horaires d'ouverture</h3>
 
         {% for i in horaires %}
             <div class=" d-flex justify-content-between"> 
                 <p class="text-uppercase fw-bold">{{i.date}}</p>
-                <p class="fw-bold text-body-emphasis">{{i.horaire}}</p>
+                <p class="fw-bold text-body-primary">{{i.horaire}}</p>
             </div>
         {% endfor %}
         
     </div>
 
     <div class="container p-3 mb-2 bg-white text-black rounded text-center w-50 shadow">
-        <h3 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Carte</h3>
+        <h3 class="display-5 fw-bold text-body-primary lh-1 mb-3">Carte</h3>
         <iframe class="rounded " src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10111.336200396496!2d3.1871036!3d50.6859053!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3288fb222b62b%3A0x2661c82cbe3fca77!2sBoulangerie%20Patisserie%20Kebaili!5e0!3m2!1sfr!2sfr!4v1714124816265!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </div>
