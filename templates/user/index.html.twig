@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte{% endblock %}
+
+{% block body %}
+
+<header class="position-relative">
+    <img src="/img/vue-dessus-du-panier-plein-pains-comme-baguette-bagel-seigle-graines-tournesol-surface-noire.jpg" width="500" height="300" class="d-block w-100 object-fit-cover " alt="Image 1"/>
+    <div class="p-5 text-center text-white position-absolute top-50 start-50 translate-middle bg-white rounded bg-opacity-75">
+        <div class="container py-3">
+            <h1 class="text-body-primary">Mon Compte</h1>
+        </div>
+    </div>
+</header>
+
+<section class="d-flex justify-content-around h-100 gap-2 px-2 section-user">
+    <div>
+        <h2 class="mt-4">Mes Données :</h2>
+
+        {% if user is not empty %}
+            <div class=" p-5 bg-body-tertiary border rounded-3">
+                <h2>{{user.email}}</h2>
+                <a href="{{ path('app_user_delete',{'id': user.id}) }}" class="btn btn-warning text-black">Supprimer mon compte</a>
+            </div>
+        {% else %}
+            <p class="mt-4">Aucune commande n'a été trouvée.</p>
+
+        {% endif %}
+        
+
+
+    </div>
+    <div>
+        {# Afficher les commandes de l'utilisateur #}
+        {% if orders is not empty %}
+            <h2 class="mt-4">Historique des commandes :</h2>
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                {% for ref, orderGroup in orders %}
+                    <div class="card border-warning mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Référence de la commande : {{ ref }}</div>
+                        <div class="card-body">
+                            {% for order in orderGroup %}
+                                <h5 class="card-title">
+                                    Article ID : {{ order.articleId }} - Quantité : {{ order.quantity }}
+                                </h5>
+                                {# Ajoutez d'autres informations sur la commande si nécessaire #}
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {# Afficher la pagination #}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-3">
+                    {% set totalPages = (totalOrders + perPage - 1) / perPage %}
+                    {% for page in 1..totalPages %}
+                        <li class="page-item {% if page == currentPage %}active{% endif %}">
+                            <a class="page-link" href="{{ path('app_user_index', {'page': page}) }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% else %}
+            <p class="mt-4">Aucune commande n'a été trouvée.</p>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

@@ -11,7 +11,7 @@
         </div>
     </div>
 </header>
-
+</br>
 {% if app.user %}
     <div class="container p-3 mt-3 d-flex align-content-center justify-content-center  bg-body-tertiary rounded shadow">
         {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
@@ -38,13 +38,17 @@
     <div class="d-flex flex-wrap gap-5 justify-content-center">
         {% for article in articles %}
             <div class="position-relative shadow">
-                <img src="/img/{{ article.image }}" class="rounded object-fit-cover" alt="{{ article.name }}" width="300" height="300" data-article-name="{{ article.name }}" data-article-description="{{ article.description }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="/img/{{ article.image }}" class="rounded object-fit-cover" alt="{{ article.name }}" width="300" height="300" data-article-name="{{ article.name }}" data-article-description="{{ article.description }}" data-article-id="{{article.id}}"data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <div class="overlay position-absolute top-0 start-0 bg-dark text-white p-3 opacity-0 transition">
                     <h5 class="fw-bold mb-1">{{ article.name }}</h5>
                     <p class="m-0">{{ article.description }}</p>
                 </div>
+
+                {% if app.user %}
+                    {% include "/carte/delete.html.twig" %}
+                {% endif %}
             </div>
-            {% else %}
+        {% else %}
             <div class="position-relative shadow">
                 <img src="/img/kebaili.jpg" class="rounded object-fit-cover" alt="pas de données" width="300" height="300" >
                 <div class="overlay position-absolute top-0 start-0 bg-dark text-white p-3 opacity-0 transition">
@@ -62,14 +66,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        $(document).ready(function() {
-            $('[data-bs-toggle="modal"]').click(function() {
-                var articleName = $(this).data('article-name');
-                var articleDescription = $(this).data('article-description');
-                $('#articleModalLabel').text(articleName);
-                $('#articleDescription').text(articleDescription);
-            });
-        });
-    </script>
+    <script src="{{ asset('js/carte.js')}}"></script>
 {% endblock %}

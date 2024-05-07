@@ -6,7 +6,7 @@
 
 {% include "/components/header.html.twig" %}
 {# -------------------- #}
-<div class="container col-xxl-8 px-4 py-5">
+<div class="container col-xxl-8 py-5">
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5 justify-content-center">
         <div class="col-10 col-sm-8 col-lg-6">
         <img src="https://img.freepik.com/photos-gratuite/baguette-grains-entiers-bio-posee-toile-lin_140725-5042.jpg?w=740&t=st=1713862017~exp=1713862617~hmac=4b0858a15811910dc421c33b4f8a0306c8322481b9562632dc8fbe5b62785ba7" 
@@ -25,9 +25,9 @@
     </div>
 </div>
 {# -------------------- #}
-<div class=" p-3 mx-3 mb-5 bg-body-tertiary text-white rounded bg-opacity-50 d-flex gap-1">
+<div class=" p-3 mb-5 bg-second text-white rounded bg-opacity-50 d-flex gap-1 horaire">
 
-    <div class="container p-3 mb-2 bg-white text-black rounded text-center w-25 shadow">
+    <div class="container p-3 mb-2 bg-white text-black rounded text-center w-25 shadow horaire-card">
         <h2 class="display-5 fw-bold text-body-primary lh-1 mb-3">Nos</h2>
         <h3 class="">Horaires d'ouverture</h3>
 
@@ -40,11 +40,13 @@
         
     </div>
 
-    <div class="container p-3 mb-2 bg-white text-black rounded text-center w-50 shadow">
+    <div class="container p-3 mb-2 bg-white text-black rounded text-center w-25 shadow horaire-card">
         <h3 class="display-5 fw-bold text-body-primary lh-1 mb-3">Carte</h3>
-        <iframe class="rounded " src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10111.336200396496!2d3.1871036!3d50.6859053!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3288fb222b62b%3A0x2661c82cbe3fca77!2sBoulangerie%20Patisserie%20Kebaili!5e0!3m2!1sfr!2sfr!4v1714124816265!5m2!1sfr!2sfr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe class="rounded " src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10111.336200396496!2d3.1871036!3d50.6859053!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c3288fb222b62b%3A0x2661c82cbe3fca77!2sBoulangerie%20Patisserie%20Kebaili!5e0!3m2!1sfr!2sfr!4v1714124816265!5m2!1sfr!2sfr"  style="border:0; width:100%; height:80%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </div>
+
+
 {% include "/carte/carte.html.twig" %}
 
 
@@ -55,16 +57,126 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        $(document).ready(function() {
-            $('[data-bs-toggle="modal"]').click(function() {
-                var articleName = $(this).data('article-name');
-                var articleDescription = $(this).data('article-description');
-                $('#articleModalLabel').text(articleName);
-                $('#articleDescription').text(articleDescription);
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCart();
 
-                console.log(articleName)
 
+            document.querySelectorAll('.add-to-cart-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var articleId = this.getAttribute('data-article-id');
+                    addToCart(articleId);
+                    renderCart();
+                });
             });
+
         });
+        
+        function addToCart(articleId) {
+            var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            var existingItemIndex = cartItems.findIndex(item => item.articleId === articleId);
+            if (existingItemIndex !== -1) {
+                cartItems[existingItemIndex].quantity++;
+            } else {
+                cartItems.push({ articleId: articleId, quantity: 1 });
+            }
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+        }
+        
+        function renderCart() {
+            var cartDropdown = document.getElementById('cartDropdown');
+            cartDropdown.innerHTML = ''; // Clear the cart before rendering
+            
+            var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            cartItems.forEach(function(item) {
+                var cartItem = document.createElement('a');
+                cartItem.classList.add('dropdown-item');
+                cartItem.innerHTML = 'Article ID: ' + item.articleId + ' - Quantity: ' + item.quantity;
+                
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('btn', 'btn-sm', 'btn-danger', 'ml-2');
+                deleteButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    removeFromCart(item.articleId);
+                    renderCart();
+                });
+                
+                var quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.value = item.quantity;
+                quantityInput.classList.add('form-control', 'form-control-sm', 'w-auto', 'd-inline');
+                
+                var updateButton = document.createElement('button');
+                updateButton.textContent = 'Update';
+                updateButton.classList.add('btn', 'btn-sm', 'btn-primary', 'ml-2');
+                updateButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    updateQuantity(item.articleId, parseInt(quantityInput.value));
+                    renderCart();
+                });
+                
+                var itemContainer = document.createElement('div');
+                itemContainer.appendChild(quantityInput);
+                itemContainer.appendChild(updateButton);
+                itemContainer.appendChild(deleteButton);
+                cartItem.appendChild(itemContainer);
+                cartDropdown.appendChild(cartItem);
+            });
+        
+            // Ajoute le bouton pour envoyer le panier vers la base de données à la fin du dropdown menu
+            var sendToDatabaseBtn = document.createElement('button');
+            sendToDatabaseBtn.textContent = 'Payment';
+            sendToDatabaseBtn.classList.add('btn', 'btn-primary', 'dropdown-item');
+            sendToDatabaseBtn.addEventListener('click', function() {
+                sendCartToDatabase();
+            });
+            cartDropdown.appendChild(sendToDatabaseBtn);
+            
+            var cartItemCount = document.getElementById('cartItemCount');
+            cartItemCount.textContent = cartItems.length;
+        }
+        
+        
+        function removeFromCart(articleId) {
+            var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            var updatedCartItems = cartItems.filter(item => item.articleId !== articleId);
+            localStorage.setItem('cart', JSON.stringify(updatedCartItems));
+        }
+        
+        function updateQuantity(articleId, newQuantity) {
+            var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            var existingItemIndex = cartItems.findIndex(item => item.articleId === articleId);
+            if (existingItemIndex !== -1) {
+                cartItems[existingItemIndex].quantity = newQuantity;
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+            }
+        }
+        
+        function sendCartToDatabase() {
+            var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Envoyer les données du panier au backend via une requête POST
+            fetch('/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(cartItems)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Le panier a été envoyé avec succès à la base de données !');
+                    // Optionnel : Réinitialisez le panier local ou effectuez d'autres actions nécessaires après l'envoi
+                    localStorage.removeItem('cart');
+                    renderCart(); // Réaffichez le panier pour refléter les changements
+                } else {
+                    console.error('Erreur lors de l\'envoi du panier à la base de données.');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi du panier à la base de données :', error);
+            });
+        }
+
     </script>
 {% endblock %}

@@ -1,5 +1,5 @@
 <div class="">
-    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom mx-3">
+    <header class="d-flex flex-wrap justify-content-center py-3 border-bottom">
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
             {# <img src="/img/kebaili.svg" class="me-2" alt="Logo Kebaili Boulangerie Pâtisserie"> #}
             <span class="fs-4 fw-bold">Kebaili Boulangerie Pâtisserie</span>
@@ -18,9 +18,14 @@
                       {{ app.user.userIdentifier }}
                   </button>
                   <ul class="dropdown-menu">
+                    <li><a href="/user" class="dropdown-item fw-bold"><i class="bi bi-person pe-2"></i>Compte</a></li>
+                    {# <li><a href="/order" class="dropdown-item fw-bold"><i class="bi bi-basket pe-2"></i>Commande</a></li> #}
                     <li><a href="{{ path('app_logout') }}" class="dropdown-item fw-bold"><i class="bi bi-box-arrow-left pe-2"></i>Log out</a></li>
                   </ul>
                 </div>
+              </li>
+              <li>
+                {% include "/components/panier.html.twig" %}
               </li>
             {% else %}
               <li class="nav-item btn-nav"><a href="/login" class="nav-link fw-bold">Login</a></li>

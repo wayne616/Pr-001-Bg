@@ -1,7 +1,7 @@
 /* Palette traditionnelle */
 :root {
     --couleur-principale: #F9D6C1;
-    --couleur-accent: #AB6330;
+    --couleur-accent: #ab6330c8;
     --couleur-mise-en-evidence: #F2E3D7;
     --couleur-fond: #E8DCCF;
   }
@@ -9,6 +9,8 @@
   /* Police classique */
   body {
     font-family: 'Lato', sans-serif !important;
+    margin: 0;
+    padding: 0;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -35,6 +37,9 @@
   
   .bg-primary {
     background-color: var(--couleur-principale) !important;
+  }
+  .bg-second {
+    background-color: var(--couleur-accent) !important;
   }
   
   /* Autres classes de couleurs Bootstrap 5 */
@@ -74,4 +79,81 @@
 .overlay p {
   font-size: 1rem; /* Taille de police de la description de l'article */
   margin: 0; /* Supprimer les marges */
+}
+
+/* Styles pour les écrans de petite taille (mobile) */
+
+@media only screen and (max-width: 600px) 
+{
+    .container {
+        width: 100%;
+    }
+    /* index */
+    .horaire {
+        flex-direction: column;
+        align-items: center;
+        width: 100% !important;
+    }
+    .horaire-card {
+        margin: 0 !important; 
+        width: 100% !important;
+    }
+    /* footer */
+    #footer{
+      flex-direction: column; 
+    }
+
+    /* card  */
+    .card-deck{
+      flex-direction: column;
+      align-content: center
+    }
+    .card-item{
+      width: 80% !important;
+    }
+
+    /* service */
+    .form-service{
+      flex-direction: column;
+    }
+    /* user */
+    .section-user{
+      flex-direction: column;
+    }
+}
+
+/* Styles pour les écrans de taille moyenne (tablette) */
+
+@media only screen and (min-width: 601px) and (max-width: 1024px) 
+{
+    /* index */
+    .horaire {
+        flex-direction: column;
+        align-items: center;
+        width: 100% !important;
+    }
+    .horaire-card {
+        margin: 0 !important; 
+        width: 100% !important;
+    }
+    
+    /* card  */
+    .card-deck{
+      flex-direction: column;
+      align-content: center
+    }
+    .card-item{
+      width: 80% !important;
+    }
+    /* service */
+    .form-service{
+      flex-direction: column;
+    }
+}
+
+/* Styles pour les grands écrans (desktop) */
+
+@media only screen and (min-width: 1025px) 
+{
+
 }

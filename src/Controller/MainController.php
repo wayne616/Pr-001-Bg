@@ -3,8 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Articles;
+use App\Entity\Order;
+use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -50,5 +54,31 @@ class MainController extends AbstractController
         return $this->render('main/service.html.twig', [
             // 'articles' => $articles
         ]);
+    }
+
+    #[Route('/checkout', name: 'checkout')]
+    public function checkout(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        // Récupérer l'utilisateur actuellement connecté
+        $user = $this->getUser();
+    
+        // Récupérer les articles du panier envoyés depuis le frontend
+        $cartItems = json_decode($request->getContent(), true);
+    
+        // Enregistrer chaque article du panier en tant qu'entité Order
+        foreach ($cartItems as $cartItem) {
+            $order = new Order();
+            $order->setArticleId($cartItem['articleId']);
+            $order->setUser($user);
+            $order->setQuantity($cartItem['quantity']);
+            $order->setRef(uniqid()); // Générez une référence unique pour chaque commande
+    
+            $entityManager->persist($order);
+        }
+    
+        // Flusher les entités Order dans la base de données
+        $entityManager->flush();
+    
+        return new JsonResponse(['success' => true]);
     }
 }
