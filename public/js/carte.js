@@ -36,8 +36,7 @@ function addToCart(articleId) {
 
 function renderCart() {
     var cartDropdown = document.getElementById('cartDropdown');
-    const test = cartDropdown.innerHTML;
-    test = ''; // Clear the cart before rendering
+    cartDropdown.innerHTML = ''; // Clear the cart before rendering
     
     var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     cartItems.forEach(function(item) {
@@ -106,6 +105,12 @@ function updateQuantity(articleId, newQuantity) {
 
 function sendCartToDatabase() {
     var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Vérifier si le panier est vide
+    if (cartItems.length === 0) {
+        console.log('Le panier est vide. Impossible de passer la commande.');
+        return; // Arrêter l'exécution de la fonction
+    }
 
     // Envoyer les données du panier au backend via une requête POST
     fetch('/checkout', {

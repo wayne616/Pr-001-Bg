@@ -6,6 +6,8 @@ use App\Entity\Articles;
 use App\Entity\Order;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Stripe\Checkout\Session;
+use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,13 +22,13 @@ class MainController extends AbstractController
         $articles = $entityManager->getRepository(Articles::class)->findBy([], ['created_at' => 'DESC'], 6);
 
         $horaires = [
-            ['date' => 'lundi', 'horaire' => '06:30 - 20:00'],
-            ['date' => 'mardi', 'horaire' => '06:30 - 20:00'],
-            ['date' => 'mercredi', 'horaire' => '06:30 - 20:00'],
-            ['date' => 'jeudi', 'horaire' => '06:30 - 20:00'],
-            ['date' => 'vendredi', 'horaire' => '06:30 - 20:00'],
-            ['date' => 'samedi', 'horaire' => '06:30 - 20:00'],
-            ['date' => 'dimanche', 'horaire' => '06:30 - 20:00'],
+            ['date' => 'lundi', 'horaire' => '07:30 - 21:00'],
+            ['date' => 'mardi', 'horaire' => '07:30 - 21:00'],
+            ['date' => 'mercredi', 'horaire' => '07:30 - 21:00'],
+            ['date' => 'jeudi', 'horaire' => '07:30 - 21:00'],
+            ['date' => 'vendredi', 'horaire' => '07:30 - 21:00'],
+            ['date' => 'samedi', 'horaire' => '07:30 - 21:00'],
+            ['date' => 'dimanche', 'horaire' => '07:30 - 21:00'],
         ];
 
 
@@ -65,20 +67,36 @@ class MainController extends AbstractController
         // Récupérer les articles du panier envoyés depuis le frontend
         $cartItems = json_decode($request->getContent(), true);
     
-        // Enregistrer chaque article du panier en tant qu'entité Order
-        foreach ($cartItems as $cartItem) {
-            $order = new Order();
-            $order->setArticleId($cartItem['articleId']);
-            $order->setUser($user);
-            $order->setQuantity($cartItem['quantity']);
-            $order->setRef(uniqid()); // Générez une référence unique pour chaque commande
+        // Créer une charge avec Stripe
+        try {
+            Stripe::setApiKey('sk_test_51O9RzvJeoeSJ02rXZRwyk3QPGrKEce4lKF2drtZbvVAvupizeg3fZwrFVX4sJdRpH0AAIZZSZY0wqedcCLmxBN7B00bwtsV0r2');
     
-            $entityManager->persist($order);
+            // Créer la charge avec les informations nécessaires
+            $checkout_session = Session::create([
+                'amount' => 1000, // Montant en cents, ajustez selon vos besoins
+                'currency' => 'eur', // Devise, ajustez selon vos besoins
+                'source' => $request->request->get('stripeToken'), // Token de carte Stripe envoyé depuis le frontend
+                'description' => 'Achat sur votre site web',
+            ]);
+    
+            // Si la charge est réussie, enregistrer chaque article du panier en tant qu'entité Order
+            foreach ($cartItems as $cartItem) {
+                $order = new Order();
+                $order->setArticleId($cartItem['articleId']);
+                $order->setUser($user);
+                $order->setQuantity($cartItem['quantity']);
+                $order->setRef(uniqid()); // Générez une référence unique pour chaque commande
+    
+                $entityManager->persist($order);
+            }
+    
+            // Flusher les entités Order dans la base de données
+            $entityManager->flush();
+    
+            return new JsonResponse(['success' => true]);
+        } catch (\Stripe\Exception\CardException $e) {
+            // En cas d'échec de la charge, gérer les erreurs (par exemple, carte invalide, solde insuffisant, etc.)
+            return new JsonResponse(['error' => $e->getMessage()], 400);
         }
-    
-        // Flusher les entités Order dans la base de données
-        $entityManager->flush();
-    
-        return new JsonResponse(['success' => true]);
     }
 }

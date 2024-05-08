@@ -19,6 +19,7 @@
                             <p>{{article.description}}</p>
                             <div>
                                 <button type="btn" class="btn btn-modal btn-light px-4 me-md-2 text-uppercase btn-hover add-to-cart-btn" id="articles.{{article.id}}" data-article-id="{{ article.id }}"  title="btn Commandez maintenant">Commandez maintenant</button>
+                                <button type="btn" class="btn btn-modal btn-primary" data-article-name="{{ article.name }}" data-article-description="{{ article.description }}" data-article-id="{{article.id}}"data-bs-toggle="modal" data-bs-target="#exampleModal">Voir</button>
                             </div>
                         </div>
                     </div>
