@@ -27,11 +27,16 @@ function addToCart(articleId) {
     var cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     var existingItemIndex = cartItems.findIndex(item => item.articleId === articleId);
     if (existingItemIndex !== -1) {
-        cartItems[existingItemIndex].quantity++;
+        // Si l'article existe déjà, ne rien faire
+        return;
     } else {
+        // Ajouter l'article avec une quantité de 1
         cartItems.push({ articleId: articleId, quantity: 1 });
     }
     localStorage.setItem('cart', JSON.stringify(cartItems));
+
+    // Afficher un message temporaire pour confirmer l'ajout au panier
+    showTemporaryMessage('L\'article a été ajouté à votre panier !', 3000); // 3000 milliseconds = 3 secondes
 }
 
 function renderCart() {
